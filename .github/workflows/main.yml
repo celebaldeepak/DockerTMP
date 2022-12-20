@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+   branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: [ self-hosted ]
+
+    steps:
+
+    - uses: actions/checkout@v3
+    - uses: deeporg/docker-login@v1
+      with:
+
+        login-server: deepakcontainer.azurecr.io
+        username: deepakcontainer
+        password: DUYC0XQbSM1u7B5CqAOQ4snEsqwBwT5k2uMmJmSAXs+ACRBkXd7M
+
+    - run: |
+        docker build . -t deepakcontainer.azurecr.io/bird:${{ github.sha }}
+        docker push deepakcontainer.azurecr.io/bird:${{ github.sha }}
